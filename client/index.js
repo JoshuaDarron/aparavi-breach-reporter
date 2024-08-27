@@ -1,6 +1,4 @@
-let userInfo, auth;
-const eventLog = [];
-
+let userInfo, auth, nodeId;
 document.getElementById('loginform').addEventListener('submit', async function (event) {
     event.preventDefault();
     try {
@@ -14,13 +12,17 @@ document.getElementById('loginform').addEventListener('submit', async function (
         // Extract authorization header and username
         auth = userData?.data?.token;
         userInfo = userData?.data?.name;
+        nodeId = userData?.data?.homeId;
 
-        // Hide login form and show listener
+        // Get potential nodes the user can select and their respective classifications
+        const children = await getChildren(nodeId, auth)
+        const classifications = await getClassifications(children)
+
+        // Hide login form and show home page
         document.getElementById('loginform').style.display = 'none';
-        document.getElementById('listener').style.display = 'block';
+        document.getElementById('home').style.display = 'block';
 
-        // Start fetching events
-        fetchEvents(lastRoomEventId, auth)
+
     } catch (error) {
         console.error('something went wrong: ', error);
     }
@@ -60,4 +62,57 @@ async function login() {
     } catch (error) {
         console.error('something went wrong: ', error);
     }
+}
+
+// Function to fetch children
+async function getChildren(node, authorization) {
+    const nodeTypes = ['appagt', 'agent', 'appliance'] // Are these the right classIds?
+    let children = []
+    try {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/children?parentId=${node}&%7B%22containersOnly%22:true,%22recursive%22:false%7D`, {
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Accept': '*/*',
+                'Authorization': authorization 
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data?.data?.objects) {
+                for (let child of data.data.objects) {
+                    if (nodeTypes.includes(child.classId)) {
+                        children.push(child)
+                    }
+                }
+            }
+        }
+        
+        return children;
+
+    } catch (error) {
+        console.error('something went wrong when fetching children')
+    }
+}
+
+// Function to get classification info
+async function getClassifications(children) {
+    //
+    try {
+        const response = await fetch(`http://localhost:945`, {
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Accept': '*/*',
+                'Authorization': authorization 
+            }
+        });
+
+        return await response.json();
+
+    } catch (error) {
+        console.error('something went wrong when fetching classifications')
+    }
+
 }
