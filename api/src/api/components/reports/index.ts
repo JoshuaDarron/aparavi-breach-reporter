@@ -61,20 +61,22 @@ class Reports {
 
             The report should always include the following sections:
 
-            1. Summary of the Breach
+            1. Summary of the Breach (At least 3 sentences)
             Briefly describe the incident and the total number of compromised files.
-            2. Details of Compromised Files
+            2. Details of Compromised Files (Always do bullets)
             Provide a breakdown of the number and type of sensitive information compromised.
             Describe the potential risk associated with each type of sensitive information.
-            3. Impact Assessment
+            3. Impact Assessment (At least 5 sentences)
             Assess the potential impact of the breach on affected individuals based on the type of information compromised.
-            4. Recommended Actions
+            4. Recommended Actions (At least 4 actions, and always do bullets)
             Suggest immediate steps to mitigate the impact of the breach.
             Provide recommendations for improving security and preventing future incidents.
-            5. Conclusion
+            5. Conclusion (At least 5 sentences)
             Summarize the overall impact of the breach and the importance of the recommended actions.
             Important: The response should only include the structured report as requested above, with no additional commentary or information.
-                    
+            
+            Take the json object below and use the values for the details of compromised files section. Also do
+            not return a bullet with nothing.
             ${message}
         `);
         // Create report in db

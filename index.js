@@ -38,6 +38,8 @@ const childSelector = document.getElementById("childSelect");
 document.getElementById('submitButton').addEventListener('click', async function (event) {
     event.preventDefault();
     try {
+        const contentDiv = document.getElementById('content-id');
+        contentDiv.innerHTML = '';
         const classificationsResponse = await getClassifications(childSelector.value, getToken());
         classifications = classificationsResponse;
 
@@ -57,7 +59,7 @@ document.getElementById('submitButton').addEventListener('click', async function
         const res = await response.json();
         console.log(res);
         
-        const contentDiv = document.getElementById('content-id');
+        
         contentDiv.innerHTML = res.content;
         
     } catch (error) {
