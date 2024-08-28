@@ -41,13 +41,25 @@ document.getElementById('submitButton').addEventListener('click', async function
         const classificationsResponse = await getClassifications(childSelector.value, getToken());
         classifications = classificationsResponse;
 
-        console.log('classifications', classifications);
-
         let requestContent = await searchRequest();
 
         let requestTitle = childrenMap[childSelector.value];
 
-        console.log({ title: requestTitle, content: requestContent} );
+        const response = await fetch('http://localhost:8081/report', {
+            method: 'POST',
+            headers: {
+                'User-Agent': 'Mozilla/5.0',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: requestTitle, content: requestContent })
+        });
+
+        const res = await response.json();
+        console.log(res);
+        
+        const contentDiv = document.getElementById('content-id');
+        contentDiv.innerHTML = res.content;
+        
     } catch (error) {
         console.error('something went wrong: ', error);
     }
@@ -81,7 +93,7 @@ async function login() {
     };
 
     try {
-        const response = await fetch('http://localhost:3000/server/api/v3/login', {
+        const response = await fetch('http://localhost:9452/server/api/v3/login', {
             method: 'POST',
             headers: {
                 'User-Agent': 'Mozilla/5.0',
@@ -102,7 +114,7 @@ async function getChildren(node, authorization) {
     const nodeTypes = ['appagt', 'agent', 'appliance'] // Are these the right classIds?
     let children = []
     try {
-        const response = await fetch(`http://localhost:3000/server/api/v3/database/children?parentId=${node}&%7B%22containersOnly%22:true,%22recursive%22:false%7D`, {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/children?parentId=${node}&%7B%22containersOnly%22:true,%22recursive%22:false%7D`, {
             method: 'GET',
             headers: {
                 'User-Agent': 'Mozilla/5.0',
@@ -143,7 +155,7 @@ async function getChildren(node, authorization) {
 // Function to get classification info
 async function getClassifications(objectId, authorization) {
     try {
-        const response = await fetch(`http://localhost:3000/server/api/v3/database/property?objectId=${objectId}&propertyId=PID_POLICY&options=%7B%7D`, {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/property?objectId=${objectId}&propertyId=PID_POLICY&options=%7B%7D`, {
             method: 'GET',
             headers: {
                 'User-Agent': 'Mozilla/5.0',
@@ -175,7 +187,7 @@ async function getClassificationHitCount(authorization) {
     };
 
     try {
-        const response = await fetch(`http://localhost:3000/server/api/v3/database/query`, {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/query`, {
             method: 'POST',
             headers: {
                 'User-Agent': 'Mozilla/5.0',
@@ -216,7 +228,7 @@ const searchRequest = async () => {
 
     
     try {
-        const response = await fetch(`http://localhost:3000/server/api/v3/database/query`, {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/query`, {
             method: 'POST',
             headers: {
                 'User-Agent': 'Mozilla/5.0',

@@ -23,6 +23,9 @@ const openai = new OpenAIApi(configuration);
 const model: string = process.env.OPENAI_API_MODEL ?? 'gpt-3.5-turbo';
 // Chat initialization
 const intro: string = `
+    I'm going to give you an object of key value pairs where the keys are the names of Sensitive Data Types.
+    You are to create a summary of the data in the below format.
+
     When reporting on sensitive data respond with a JSON object with the following fields
     - content: string
 
@@ -31,7 +34,7 @@ const intro: string = `
 
     Report Requirements:
 
-    The report should include the following sections:
+    The report should always include the following sections:
 
     1. Summary of the Breach
     Briefly describe the incident and the total number of compromised files.
