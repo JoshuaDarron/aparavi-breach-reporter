@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="./libs/paper.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./index.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="loginPage" class="paper container">
+        <h1>Login</h1>
+        <div class="form-group">
+            <label for="loginInputs1">Username</label>
+            <input type="text" placeholder="Username" id="loginInputs1" value="root" />
+        </div>
+        <div class="form-group">
+            <label for="loginInputs2">Password</label>
+            <input type="text" placeholder="Password" id="loginInputs2" value="root" />
+        </div>
+        <button id="loginButton" class="btn-small">Login</button>
+    </div>
+    <div id="homePage" class="paper container pageHidden">
+        <div class="form-group">
+            <label for="childSelect">Choose a Child Node:</label>
+            <select name="child" id="childSelect"></select>
+        </div>
+        <button id="submitButton" class="btn-small">Submit</button>
+    </div>
+    <script type="text/javascript" async="" src="./index.js"></script>
+  </body>
+</html>
