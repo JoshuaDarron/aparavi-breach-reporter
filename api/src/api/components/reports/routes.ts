@@ -26,9 +26,8 @@ router.get('/report/:id', async (req: Request, res: Response, next: NextFunction
 });
 
 router.post('/report', async (req: Request, res: Response, next: NextFunction) => {
-    const token = _.get(req.headers, 'authorization') as string;
     const { title, content } = _.pick(req.body, 'title', 'content');
-    const [err, response] = await callout(Reports.generateReport({ title, content }, token));
+    const [err, response] = await callout(Reports.generateReport({ title, content }));
     if (err) {
         return next(new APIError(err.message, err.status, true));
     }
