@@ -41,8 +41,7 @@ class Reports {
         return deleted;
     }
 
-    async generateReport (data: any, token: string): Promise<any> {
-        console.log(token);
+    async generateReport (data: any): Promise<any> {
         const { title, content } = data;
         const message = `${title} By: ${content}`;
         // Make a request to the OpenAI API

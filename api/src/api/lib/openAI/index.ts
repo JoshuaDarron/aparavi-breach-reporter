@@ -3,7 +3,9 @@ import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 // Utils
 import { callout } from "../../utils/helpers";
 // Types
-import { Report } from "../../components/reports/types";
+type classifications = {
+    [key: string]: number;
+}
 type History = [
     string | undefined,
     string | undefined
