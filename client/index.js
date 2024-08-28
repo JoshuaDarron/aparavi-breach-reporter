@@ -16,7 +16,7 @@ document.getElementById('loginform').addEventListener('submit', async function (
 
         // Get potential nodes the user can select and their respective classifications
         const children = await getChildren(nodeId, auth)
-        const classifications = await getClassifications(children)
+        const classifications = await getClassifications(auth)
 
         // Hide login form and show home page
         document.getElementById('loginform').style.display = 'none';
@@ -97,10 +97,9 @@ async function getChildren(node, authorization) {
 }
 
 // Function to get classification info
-async function getClassifications(children) {
-    //
+async function getClassifications(objectId, authorization) {
     try {
-        const response = await fetch(`http://localhost:945`, {
+        const response = await fetch(`http://localhost:9452/server/api/v3/database/property?objectId=${objectId}&propertyId=PID_POLICY&options=%7B%7D`, {
             method: 'GET',
             headers: {
                 'User-Agent': 'Mozilla/5.0',
