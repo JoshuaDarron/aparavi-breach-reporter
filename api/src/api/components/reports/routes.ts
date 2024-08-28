@@ -25,7 +25,6 @@ router.get('/report/:id', async (req: Request, res: Response, next: NextFunction
     res.json(response);
 });
 
-
 router.post('/report', async (req: Request, res: Response, next: NextFunction) => {
     const token = _.get(req.headers, 'authorization') as string;
     const { title, content } = _.pick(req.body, 'title', 'content');
@@ -36,9 +35,10 @@ router.post('/report', async (req: Request, res: Response, next: NextFunction) =
     res.json(response);
 });
 
-router.put('/report', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/report/:id', async (req: Request, res: Response, next: NextFunction) => {
+    const id = _.get(req.params, 'id');
     const { title, content } = _.pick(req.body, 'title', 'content');
-    const [err, response] = await callout(Reports.update({ title, content }));
+    const [err, response] = await callout(Reports.update(id, { title, content }));
     if (err) {
         return next(new APIError(err.message, err.status, true));
     }

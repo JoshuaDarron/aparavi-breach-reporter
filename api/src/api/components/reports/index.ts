@@ -26,11 +26,12 @@ class Reports {
         return res;
     }
 
-    async update (report: Report): Promise<any> {
-        const [id] = await knex('reports')
+    async update (id: string, report: Report): Promise<any> {
+        const [res] = await knex('reports')
             .update(report)
-            .returning('id');
-        return id;
+            .where('id', id)
+            .returning('*');
+        return res;
     }
 
     async delete (reportId: string): Promise<any> {
